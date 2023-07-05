@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: cast_main_production
-  username: cast_main
-  password: <%= ENV["CAST_MAIN_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
