@@ -1,5 +1,4 @@
 require_relative "boot"
-
 require "rails"
 # Pick the frameworks you want:
 require "active_model/railtie"
@@ -35,17 +34,15 @@ module CastMain
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-  end
-end
-# config/application.rb
-module ExampleProject
-  class Application < Rails::Application
-    config.load_defaults 6.1
 
-    # This is set in apps generated with the --api flag, and removes session/cookie middleware
-    config.api_only = true
+    # Add CORS configuration
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*' # Set your local development server's origin
+        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options]
+      end
+    end
 
-    # ▾ Must add these lines! ▾
     # Adding back cookies and session middleware
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
